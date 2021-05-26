@@ -1,0 +1,29 @@
+{
+  "name": "learnjs",
+  "version": "1.0.0",
+  "description": "First project NodeJS",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --inspect index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hlphap/LearnJS.git"
+  },
+  "keywords": [
+    "LearnNodeJS"
+  ],
+  "author": "Phap Huynh",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hlphap/LearnJS/issues"
+  },
+  "homepage": "https://github.com/hlphap/LearnJS#readme",
+  "dependencies": {
+    "express": "^4.17.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  }
+}

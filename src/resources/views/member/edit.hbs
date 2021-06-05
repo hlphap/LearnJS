@@ -1,0 +1,26 @@
+<div class="mt-4 container-fluid">
+  <h3>Câp nhật thông tin thành viên</h3>
+  <form method="POST" action="/members/{{member._id}}?_method=PUT">
+    <div class="form-group">
+      <label for="name" class="form-label">Tên người dùng</label>
+      <input type="text" class="form-control" value="{{member.name}}" id="name" name="name" />
+    </div>
+
+    <div class="form-group">
+      <label for="phone" class="form-label">Số điện thoại</label>
+      <input type="text" class="form-control" value="{{member.phone}}" id="phone" name="phone" />
+    </div>
+
+    <div class="form-group">
+      <label for="email" class="form-label">Email</label>
+      <input type="text" class="form-control" value="{{member.email}}" id="email" name="email" />
+    </div>
+
+    <div class="form-group">
+      <label for="image" class="form-label">Hình ảnh</label>
+      <input type="text" class="form-control" value="{{member.image}}" id="image" name="image" />
+    </div>
+
+    <button type="submit" class="btn btn-primary mt-4">Sửa thành viên</button>
+  </form>
+</div>

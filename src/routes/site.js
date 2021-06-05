@@ -4,7 +4,7 @@ const router = express.Router();
 //Declare controller
 const siteController = require("../app/controllers/SiteController.js");
 
-router.use("/:slug", siteController.show);
-router.use("/", siteController.index);
+router.get("/search", siteController.show);
+router.get("/", siteController.index);
 
 module.exports = router;

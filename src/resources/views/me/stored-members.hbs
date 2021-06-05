@@ -1,0 +1,29 @@
+<div class="mt-4 container-fluid">
+  <h3>Thành viên của tôi</h3>
+
+  <table class="table mt-4">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Tên thành viên</th>
+        <th scope="col">Số điện thoại</th>
+        <th scope="col">Email</th>
+        <th scope="col">Hành động</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{#each members}}
+      <tr>
+        <th scope="row">{{sum @index 1}}</th>
+        <td>{{this.name}}</td>
+        <td>{{this.phone}}</td>
+        <td>{{this.email}}</td>
+        <td>
+          <a href="/members/{{this._id}}/edit" class="btn btn-warning">Sửa</a>
+          <a href="" class="btn btn-danger">Xóa</a>
+        </td>
+      </tr>
+      {{/each}}
+    </tbody>
+  </table>
+</div>

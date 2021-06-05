@@ -1,10 +1,12 @@
 //Require Router
-const newsRouter = require("./news.js");
 const siteRouter = require("./site.js");
+const memberRouter = require("./members.js");
 const coursesRouter = require("./courses.js");
+const meRouter = require("./me.js");
 
 function routes(app) {
-  app.use("/news", newsRouter);
+  app.use("/me", meRouter);
+  app.use("/members", memberRouter);
   app.use("/courses", coursesRouter);
   app.use("/", siteRouter);
 }

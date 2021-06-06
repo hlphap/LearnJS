@@ -17,6 +17,7 @@ db.connect();
 
 //Static file
 app.use(express.static(path.join(__dirname, "public")));
+
 //Config Json
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());

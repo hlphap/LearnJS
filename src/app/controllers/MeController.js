@@ -1,5 +1,6 @@
 const Course = require("../models/Course");
 const Member = require("../models/Member");
+const Policy = require("../models/Policy");
 
 const {
   multipleMongooseToObject,
@@ -23,6 +24,17 @@ class MeController {
       .then((members) => {
         res.render("me/stored-members", {
           members: multipleMongooseToObject(members),
+        });
+      })
+      .catch(next);
+  }
+
+  //[GET] /me/stored/members
+  storedPolicy(req, res, next) {
+    Policy.find({})
+      .then((policy) => {
+        res.render("me/stored-policy", {
+          policy: multipleMongooseToObject(policy),
         });
       })
       .catch(next);

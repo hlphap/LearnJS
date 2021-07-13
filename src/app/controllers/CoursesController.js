@@ -5,60 +5,54 @@ const {
 const Course = require("../models/Course");
 class CoursesController {
   //[GET] /courses
-  index(req, res, next) {
-    Course.find({})
-      .then((courses) => {
-        res.render("courses", { courses: multipleMongooseToObject(courses) });
-      })
-      .catch(next);
+  async index(req, res, next) {
+    const courses = await Course.find({});
+    return res.render("courses", { courses: multipleMongooseToObject(courses) })
   }
 
-  //[GET] /courses/slug
-  show(req, res, next) {
-    Course.findOne({ slug: req.params.slug })
-      .then((course) =>
-        res.render("course/show", {
-          course: mongooseToObject(course),
-        })
-      )
-      .catch(next);
+  //[GET] /courses/:id
+  async show(req, res, next) {
+    const course = await Course.findOne({ slug: req.params.id });
+    return res.render("course/show", {
+      course: mongooseToObject(course),
+    });;
   }
 
   //[GET] /courses/create
   create(req, res, next) {
     res.render("course/create");
   }
-  //[POST] /courses/store
-  store(req, res, next) {
-    const formData = req.body;
-    formData.image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
-    const course = new Course(formData);
-    course
-      .save()
-      .then(() => res.redirect("/courses"))
-      .catch(next);
+
+  //[POST] /courses/
+  async store(req, res, next) {
+    const { name, description, videoId, level } = req.body;
+    const image = `https://img.youtube.com/vi/${req.body.videoId}/sddefault.jpg`;
+    const course = new Course({ name, description, videoId, level, image });
+
+    await course.save();
+
+    return res.redirect("/courses");
   }
   //[GET] /courses/:id/edit
-  edit(req, res, next) {
-    Course.findById(req.params.id)
-      .then((course) =>
-        res.render("course/edit", { course: mongooseToObject(course) })
-      )
-      .catch(next);
+  async edit(req, res, next) {
+    const { id } = req.params;
+    const course = await Course.findById(id);
+    return res.render("course/edit", { course: mongooseToObject(course) })
   }
 
   //[PUT] /courses/:id
-  update(req, res, next) {
-    Course.updateOne({ _id: req.params.id }, req.body)
-      .then(() => res.redirect("/me/stored/courses"))
-      .catch(next);
+  async update(req, res, next) {
+    const { id } = req.params;
+    const { name, description, videoId, level } = req.body;
+    await Course.updateOne({ _id: id }, { name, description, videoId, level })
+    return res.redirect("/me/stored/courses");
   }
 
   //[DELETE] /courses/:id
-  delete(req, res, next) {
-    Course.deleteOne({ _id: req.params.id })
-      .then(() => res.redirect("back"))
-      .catch(next);
+  async delete(req, res, next) {
+    const { id } = req.params;
+    await Course.findByIdAndDelete(id);
+    return res.redirect("back");
   }
 }
 

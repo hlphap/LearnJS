@@ -1,18 +1,17 @@
-const express = require("express");
-const router = express.Router();
+const router = require("express-promise-router")();
 
-//
 const coursesController = require("../app/controllers/CoursesController.js");
 
-router.delete("/:id", coursesController.delete);
-
-router.get("/:id/edit", coursesController.edit);
 router.get("/create", coursesController.create);
+router.get("/:id/edit", coursesController.edit);
 
-router.post("/store", coursesController.store);
-router.put("/:id", coursesController.update);
+router.route("/:id")
+    .get(coursesController.show)
+    .put(coursesController.update)
+    .delete(coursesController.delete)
 
-router.get("/:slug", coursesController.show);
-router.get("/", coursesController.index);
+router.route("/")
+    .get(coursesController.index)
+    .post(coursesController.store)
 
 module.exports = router;

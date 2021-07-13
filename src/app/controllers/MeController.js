@@ -1,6 +1,5 @@
 const Course = require("../models/Course");
 const Member = require("../models/Member");
-const Policy = require("../models/Policy");
 
 const {
   multipleMongooseToObject,

@@ -51,7 +51,52 @@ class CoursesController {
   //[DELETE] /courses/:id
   async delete(req, res, next) {
     const { id } = req.params;
-    await Course.findByIdAndDelete(id);
+    await Course.delete({ _id: id });
+    return res.redirect("back");
+  }
+
+  //[PATCH] /courses/:id/restore
+  async restore(req, res, next) {
+    const { id } = req.params;
+    await Course.restore({ _id: id });
+    return res.redirect("back");
+  }
+
+  //[DELETE] /courses/:id/force
+  async forceDelete(req, res, next) {
+    const { id } = req.params;
+    await Course.deleteOne({ _id: id });
+    return res.redirect("back");
+  }
+
+  async handeFormAction(req, res, next) {
+    const { action, courseIds } = req.body;
+    console.log(courseIds);
+    switch (action) {
+      case 'delete':
+        await Course.delete({
+          _id: {
+            $in: courseIds
+          }
+        });
+        break;
+      case 'restore':
+        await Course.restore({
+          _id: {
+            $in: courseIds,
+          }
+        })
+        break;
+      case 'forceDelete':
+        await Course.deleteMany({
+          _id: {
+            $in: courseIds,
+          }
+        })
+        break;
+      default:
+        return res.status(403).json({ message: "Hành động không tồn tại" })
+    }
     return res.redirect("back");
   }
 }

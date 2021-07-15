@@ -8,35 +8,31 @@ const {
 
 class MeController {
   //[GET] /me/stored/courses
-  storedCourses(req, res, next) {
-    Course.find({})
-      .then((courses) => {
-        res.render("me/stored-courses", {
-          courses: multipleMongooseToObject(courses),
-        });
-      })
-      .catch(next);
-  }
-  //[GET] /me/stored/members
-  storedMembers(req, res, next) {
-    Member.find({})
-      .then((members) => {
-        res.render("me/stored-members", {
-          members: multipleMongooseToObject(members),
-        });
-      })
-      .catch(next);
+  async storedCourses(req, res, next) {
+    const courses = await Course.find({});
+
+    const deletedCount = await Course.countDocumentsDeleted({});
+
+    return res.render("me/stored-courses", {
+      deletedCount,
+      courses: multipleMongooseToObject(courses)
+    });
   }
 
   //[GET] /me/stored/members
-  storedPolicy(req, res, next) {
-    Policy.find({})
-      .then((policy) => {
-        res.render("me/stored-policy", {
-          policy: multipleMongooseToObject(policy),
-        });
-      })
-      .catch(next);
+  async storedMembers(req, res, next) {
+    const members = await Member.find({});
+    return res.render("me/stored-members", { members: multipleMongooseToObject(members) })
+  }
+
+  async trashMembers(req, res, next) {
+    const members = await Member.find({});
+    return res.render("me/stored-members", { members: multipleMongooseToObject(members) })
+  }
+
+  async trashCourses(req, res, next) {
+    const courses = await Course.findDeleted({});
+    return res.render("me/trash-courses", { courses: multipleMongooseToObject(courses) });
   }
 }
 

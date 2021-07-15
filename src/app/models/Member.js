@@ -2,7 +2,6 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const slug = require("mongoose-slug-generator");
 
-mongoose.plugin(slug);
 const Member = new Schema(
   {
     name: {
@@ -26,4 +25,6 @@ const Member = new Schema(
   { timestamps: true }
 );
 
+//Add plugin
+mongoose.plugin(slug);
 module.exports = mongoose.model("Member", Member);

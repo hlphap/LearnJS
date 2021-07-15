@@ -6,52 +6,44 @@ const {
 
 class MembersController {
   //[GET] /members
-  index(req, res, next) {
-    Member.find({})
-      .then((members) => {
-        res.render("members", { members: multipleMongooseToObject(members) });
-      })
-      .catch(next);
+  async index(req, res, next) {
+    const members = await Member.find({})
+    return res.render("members", { members: multipleMongooseToObject(members) });
   }
 
-  //[GET] /members/slug
-  show(req, res, next) {
-    Member.findOne({ slug: req.params.slug })
-      .then((member) =>
-        res.render("member/show", { member: mongooseToObject(member) })
-      )
-      .catch(next);
+  //[GET] /members/:id
+  async show(req, res, next) {
+    const { id } = req.params;
+    const member = await Member.findOne({ slug: id });
+    return res.render("member/show", { member: mongooseToObject(member) })
   }
 
   //[GET] /members/create
   create(req, res, next) {
-    res.render("member/create");
+    return res.render("member/create");
   }
 
   //[POST] /members/store
-  store(req, res, next) {
-    const formData = req.body;
-    const member = new Member(formData);
-    member
-      .save()
-      .then(() => res.redirect("/members"))
-      .catch(next);
+  async store(req, res, next) {
+    const { name, phone, email, image } = req.body;
+    const member = new Member({ name, phone, email, image });
+    await member.save();
+    return res.redirect("/members")
   }
 
   //[GET] /members/:id/edit
-  edit(req, res, next) {
-    Member.findById(req.params.id)
-      .then((member) =>
-        res.render("member/edit", { member: mongooseToObject(member) })
-      )
-      .catch(next);
+  async edit(req, res, next) {
+    const { id } = req.params;
+    const member = await Member.findById(req.params.id);
+    return res.render("member/edit", { member: mongooseToObject(member) });
   }
 
   //[PUT] /members/:id
-  update(req, res, next) {
-    Member.updateOne({ _id: req.params.id }, req.body)
-      .then(() => res.redirect("/me/stored/members"))
-      .catch(next);
+  async update(req, res, next) {
+    const { id } = req.params;
+    const { name, phone, email, image } = req.body;
+    await Member.findByIdAndUpdate(id, { name, phone, email, image })
+    return res.redirect("/me/stored/members");
   }
 }
 
